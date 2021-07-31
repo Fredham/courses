@@ -1,0 +1,103 @@
+CREATE FUNCTION intset_in (cstring)
+   RETURNS intSet
+   AS '_OBJWD_/intset'
+   LANGUAGE C IMMUTABLE STRICT;
+
+CREATE FUNCTION intset_out(intSet)
+   RETURNS cstring
+   AS '_OBJWD_/intset'
+   LANGUAGE C IMMUTABLE STRICT;
+
+
+CREATE TYPE intSet (
+   internallength = variable,
+   input = intset_in,
+   output = intset_out
+);
+CREATE FUNCTION intset_eq(intSet, intSet) RETURNS bool
+   AS '_OBJWD_/intset' LANGUAGE C IMMUTABLE STRICT;
+
+CREATE OPERATOR = (
+   leftarg = intSet, rightarg = intSet, procedure = intset_eq
+);
+
+--operator #
+CREATE FUNCTION intset_cardinality(intSet)
+   RETURNS integer
+   AS '_OBJWD_/intset'
+   LANGUAGE C IMMUTABLE STRICT;
+CREATE OPERATOR # (
+   rightarg = intSet, procedure = intset_cardinality
+);
+
+--operator -
+CREATE FUNCTION intset_difference(intSet, intSet)
+   RETURNS intSet
+   AS '_OBJWD_/intset'
+   LANGUAGE C IMMUTABLE STRICT;
+CREATE OPERATOR - (
+   leftarg = intSet, rightarg = intSet,procedure = intset_difference
+);
+
+--operator ?
+CREATE FUNCTION intset_qu(integer, intSet)
+   RETURNS bool
+   AS '_OBJWD_/intset'
+   LANGUAGE C IMMUTABLE STRICT;
+CREATE OPERATOR ? (
+   leftarg = integer, rightarg = intSet,procedure = intset_qu
+);
+
+--operator &&
+CREATE FUNCTION intset_intersection(intSet, intSet)
+   RETURNS intSet
+   AS '_OBJWD_/intset'
+   LANGUAGE C IMMUTABLE STRICT;
+CREATE OPERATOR && (
+   leftarg = intSet, rightarg = intSet,procedure = intset_intersection
+);
+
+--operator ||
+CREATE FUNCTION intset_union(intSet, intSet)
+   RETURNS intSet
+   AS '_OBJWD_/intset'
+   LANGUAGE C IMMUTABLE STRICT;
+CREATE OPERATOR || (
+   leftarg = intSet, rightarg = intSet,procedure = intset_union
+);
+
+--operator >@
+CREATE FUNCTION intset_contain_b(intSet, intSet)
+   RETURNS bool
+   AS '_OBJWD_/intset'
+   LANGUAGE C IMMUTABLE STRICT;
+CREATE OPERATOR >@ (
+   leftarg = intSet, rightarg = intSet,procedure = intset_contain_b
+);
+
+--operator @<
+CREATE FUNCTION intset_contain_a(intSet, intSet)
+   RETURNS bool
+   AS '_OBJWD_/intset'
+   LANGUAGE C IMMUTABLE STRICT;
+CREATE OPERATOR @< (
+   leftarg = intSet, rightarg = intSet,procedure = intset_contain_a
+);
+
+--operator <>
+CREATE FUNCTION intset_contain_not_equal(intSet, intSet)
+   RETURNS bool
+   AS '_OBJWD_/intset'
+   LANGUAGE C IMMUTABLE STRICT;
+CREATE OPERATOR <> (
+   leftarg = intSet, rightarg = intSet,procedure = intset_contain_not_equal
+);
+
+--operator !!
+CREATE FUNCTION intset_dis(intSet, intSet)
+   RETURNS intSet
+   AS '_OBJWD_/intset'
+   LANGUAGE C IMMUTABLE STRICT;
+CREATE OPERATOR !! (
+   leftarg = intSet, rightarg = intSet,procedure = intset_dis
+);
